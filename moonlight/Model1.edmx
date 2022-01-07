@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="moreorlessModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Champions">
+          <Key>
+            <PropertyRef Name="ChampionName" />
+          </Key>
+          <Property Name="ChampionName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ChampionCost" Type="int" Nullable="false" />
+          <Property Name="ChampionIcon" Type="image" />
+        </EntityType>
+        <EntityType Name="RankingCost">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+          </Key>
+          <Property Name="PlayerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RankingSkin">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+          </Key>
+          <Property Name="PlayerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Skins">
+          <Key>
+            <PropertyRef Name="SkinName" />
+          </Key>
+          <Property Name="SkinName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ChampionName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Skins_Champions">
+          <End Role="Champions" Type="Self.Champions" Multiplicity="1" />
+          <End Role="Skins" Type="Self.Skins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Champions">
+              <PropertyRef Name="ChampionName" />
+            </Principal>
+            <Dependent Role="Skins">
+              <PropertyRef Name="ChampionName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ChampionAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChampionName" Type="varchar" Mode="In" />
+          <Parameter Name="ChampionCost" Type="int" Mode="In" />
+          <Parameter Name="ChampionIcon" Type="image" Mode="In" />
+        </Function>
+        <Function Name="ChampionAdd_1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChampionName" Type="varchar" Mode="In" />
+          <Parameter Name="ChampionCost" Type="int" Mode="In" />
+          <Parameter Name="ChampionIcon" Type="image" Mode="In" />
+        </Function>
+        <Function Name="ScoreCostAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PlayerName" Type="varchar" Mode="In" />
+          <Parameter Name="Score" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ScoreSkinAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PlayerName" Type="varchar" Mode="In" />
+          <Parameter Name="Score" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SkinAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SkinName" Type="varchar" Mode="In" />
+          <Parameter Name="ChampionName" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="moreorlessModelStoreContainer">
+          <EntitySet Name="Champions" EntityType="Self.Champions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RankingCost" EntityType="Self.RankingCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RankingSkin" EntityType="Self.RankingSkin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skins" EntityType="Self.Skins" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Skins_Champions" Association="Self.FK_Skins_Champions">
+            <End Role="Champions" EntitySet="Champions" />
+            <End Role="Skins" EntitySet="Skins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="moreorlessModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Champions">
+          <Key>
+            <PropertyRef Name="ChampionName" />
+          </Key>
+          <Property Name="ChampionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ChampionCost" Type="Int32" Nullable="false" />
+          <Property Name="ChampionIcon" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Skins" Relationship="Self.FK_Skins_Champions" FromRole="Champions" ToRole="Skins" />
+        </EntityType>
+        <EntityType Name="RankingCost">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+          </Key>
+          <Property Name="PlayerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RankingSkin">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+          </Key>
+          <Property Name="PlayerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Skins">
+          <Key>
+            <PropertyRef Name="SkinName" />
+          </Key>
+          <Property Name="SkinName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ChampionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Champions" Relationship="Self.FK_Skins_Champions" FromRole="Skins" ToRole="Champions" />
+        </EntityType>
+        <Association Name="FK_Skins_Champions">
+          <End Role="Champions" Type="Self.Champions" Multiplicity="1" />
+          <End Role="Skins" Type="Self.Skins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Champions">
+              <PropertyRef Name="ChampionName" />
+            </Principal>
+            <Dependent Role="Skins">
+              <PropertyRef Name="ChampionName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="moreorlessEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Champions" EntityType="Self.Champions" />
+          <EntitySet Name="RankingCost" EntityType="Self.RankingCost" />
+          <EntitySet Name="RankingSkin" EntityType="Self.RankingSkin" />
+          <EntitySet Name="Skins" EntityType="Self.Skins" />
+          <AssociationSet Name="FK_Skins_Champions" Association="Self.FK_Skins_Champions">
+            <End Role="Champions" EntitySet="Champions" />
+            <End Role="Skins" EntitySet="Skins" />
+          </AssociationSet>
+          <FunctionImport Name="ChampionAdd">
+            <Parameter Name="ChampionName" Mode="In" Type="String" />
+            <Parameter Name="ChampionCost" Mode="In" Type="Int32" />
+            <Parameter Name="ChampionIcon" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="ScoreCostAdd">
+            <Parameter Name="PlayerName" Mode="In" Type="String" />
+            <Parameter Name="Score" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ScoreSkinAdd">
+            <Parameter Name="PlayerName" Mode="In" Type="String" />
+            <Parameter Name="Score" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SkinAdd">
+            <Parameter Name="SkinName" Mode="In" Type="String" />
+            <Parameter Name="ChampionName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ChampionAdd_1">
+            <Parameter Name="ChampionName" Mode="In" Type="String" />
+            <Parameter Name="ChampionCost" Mode="In" Type="Int32" />
+            <Parameter Name="ChampionIcon" Mode="In" Type="Binary" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="moreorlessModelStoreContainer" CdmEntityContainer="moreorlessEntities">
+          <EntitySetMapping Name="Champions">
+            <EntityTypeMapping TypeName="moreorlessModel.Champions">
+              <MappingFragment StoreEntitySet="Champions">
+                <ScalarProperty Name="ChampionName" ColumnName="ChampionName" />
+                <ScalarProperty Name="ChampionCost" ColumnName="ChampionCost" />
+                <ScalarProperty Name="ChampionIcon" ColumnName="ChampionIcon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RankingCost">
+            <EntityTypeMapping TypeName="moreorlessModel.RankingCost">
+              <MappingFragment StoreEntitySet="RankingCost">
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RankingSkin">
+            <EntityTypeMapping TypeName="moreorlessModel.RankingSkin">
+              <MappingFragment StoreEntitySet="RankingSkin">
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skins">
+            <EntityTypeMapping TypeName="moreorlessModel.Skins">
+              <MappingFragment StoreEntitySet="Skins">
+                <ScalarProperty Name="SkinName" ColumnName="SkinName" />
+                <ScalarProperty Name="ChampionName" ColumnName="ChampionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ChampionAdd" FunctionName="moreorlessModel.Store.ChampionAdd" />
+          <FunctionImportMapping FunctionImportName="ScoreCostAdd" FunctionName="moreorlessModel.Store.ScoreCostAdd" />
+          <FunctionImportMapping FunctionImportName="ScoreSkinAdd" FunctionName="moreorlessModel.Store.ScoreSkinAdd" />
+          <FunctionImportMapping FunctionImportName="SkinAdd" FunctionName="moreorlessModel.Store.SkinAdd" />
+          <FunctionImportMapping FunctionImportName="ChampionAdd_1" FunctionName="moreorlessModel.Store.ChampionAdd_1" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
